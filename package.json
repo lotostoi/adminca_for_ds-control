@@ -1,0 +1,26 @@
+{
+  "name": "adminca_for_ds-control",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lotostoi/adminca_for_ds-control.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lotostoi/adminca_for_ds-control/issues"
+  },
+  "homepage": "https://github.com/lotostoi/adminca_for_ds-control#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.7",
+    "pouchdb": "^7.2.2"
+  }
+}
