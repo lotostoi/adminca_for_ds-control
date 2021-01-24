@@ -7,6 +7,7 @@ const { db: configDB } = require('../config/config')
 const PouchDB = require('pouchdb')
 PouchDB.plugin(require('pouchdb-find'))
 
+
 const OBJECT = ['id_project', 'position', 'type', 'interactive', 'displayId', 'url']
 
 const FILE_LINK = path.join(__dirname, '..', 'files', 'csv-file.csv')
@@ -63,8 +64,6 @@ router.post('/add', upload.single('file'), async (req, res) => {
         }
 
     })
-
-
 
 })
 

@@ -20,7 +20,7 @@ form.addEventListener('submit', async (e) => {
             message.style.display = "flex"
             form.reset()
             message.innerHTML = "The file was imported successfully"
-            setTimeout(() => { message.style.display = "none" }, 2000)
+            setTimeout(() => { message.style.display = "none" }, 4000)
         } else {
             error.innerHTML = " Error conncetion "
         }
