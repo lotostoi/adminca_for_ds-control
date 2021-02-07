@@ -3,7 +3,7 @@ const path = require('path')
 const router = Router()
 const multer = require('multer')
 const fs = require('fs')
-const { db: configDB } = require('../config/config')
+const { db: configDB, BASE_URL } = require('../config/config')
 const PouchDB = require('pouchdb')
 PouchDB.plugin(require('pouchdb-find'))
 
@@ -22,7 +22,7 @@ let storage = multer.diskStorage({
 })
 let upload = multer({ storage: storage })
 
-router.post('/add', upload.single('file'), async (req, res) => {
+router.post(BASE_URL + 'add/objects', upload.single('file'), async (req, res) => {
 
     fs.readFile(FILE_LINK, "UTF-8", async (err, data) => {
         if (err) throw err
@@ -30,8 +30,8 @@ router.post('/add', upload.single('file'), async (req, res) => {
             data = data.split(/\n/gm).slice(1)
             data = getObjects(data)
 
-            const tableObjects = new PouchDB(configDB.link + 'ds-dev')
-            const tableProjects = new PouchDB(configDB.link + '_projects')
+            const tableObjects = new PouchDB(configDB.link + 'testDispl')
+            const tableProjects = new PouchDB(configDB.link + 'tastProj')
 
             const { rows } = await tableProjects.allDocs({
                 include_docs: true,
@@ -41,8 +41,8 @@ router.post('/add', upload.single('file'), async (req, res) => {
             const project = rows.find(({ id }) => id === data.project._id)
 
             if (project !== undefined) {
-                const pr = await tableProjects.get(project.id)
-                tableProjects.remove(pr)
+                const projectInDB = await tableProjects.get(project.id)
+                projectInDB.displays = data.project.displays
 
                 const { docs } = await tableObjects.find({
                     selector: { "displayId": { "$in": data.project.displays } },
@@ -50,7 +50,7 @@ router.post('/add', upload.single('file'), async (req, res) => {
 
                 await tableObjects.bulkDocs(docs.map(d => ({ ...d, _deleted: true })))
 
-                tableProjects.put(data.project)
+                tableProjects.put(projectInDB)
                 tableObjects.bulkDocs({ docs: data.objects })
 
             } else {
@@ -60,6 +60,7 @@ router.post('/add', upload.single('file'), async (req, res) => {
             }
             res.json({ res: true })
         } catch (e) {
+            console.log(e)
             res.json({ res: false })
         }
 
