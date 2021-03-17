@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "font-awesome": "^4.7.0",
+    "fontawesome": "^4.7.2",
     "sass-loader": "^10.0.5",
     "uniqid": "^5.2.0",
     "vue": "^3.0.0",
